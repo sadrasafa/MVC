@@ -3,6 +3,7 @@ package selab.mvc.models.entities;
 import selab.mvc.models.Model;
 import sun.misc.Regexp;
 
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class Course implements Model {
@@ -11,6 +12,7 @@ public class Course implements Model {
     private String startTime = null;
     private String endTime = null;
     private Weekday weekday;
+    private HashMap<String, String> studentPoints = new HashMap<>();
 
 
     @Override
@@ -62,12 +64,24 @@ public class Course implements Model {
 
     public float getAverage() {
         // TODO: Calculate and return the average of the points
-        return 0;
+        float sum = 0.0f;
+        if (studentPoints.values().size() == 0)
+            return 0;
+        for (String points: studentPoints.values()) {
+            sum += (Float.parseFloat(points));
+        }
+        return sum/studentPoints.values().size();
     }
 
     public String getStudents() {
         // TODO: Return a comma separated list of student names
-        return "-";
+        String names = "";
+        if (studentPoints.keySet().size() == 0)
+            return "-";
+        for (String studentName: studentPoints.keySet()) {
+            names += (studentName+",");
+        }
+        return names.substring(0,names.length()-1);
     }
 
     /**
@@ -108,5 +122,12 @@ public class Course implements Model {
             return 0;
         else
             return -1;
+    }
+
+    public void addStudent(Student student, String points) {
+        studentPoints.put(student.getName(), points);
+    }
+    public void removeStudent(Student student) {
+        studentPoints.remove(student.getName());
     }
 }

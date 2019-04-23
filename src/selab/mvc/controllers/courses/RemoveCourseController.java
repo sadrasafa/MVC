@@ -31,8 +31,16 @@ public class RemoveCourseController extends Controller {
         String courseNo = input.getString("courseNo");
 
         // TODO: Add codes for removing the course
+        Course course = courses.get(courseNo);
+        courses.remove(course);
 
-        return null;
+        for (Student student: dataContext.getStudents().getAll()) {
+            student.removeCourse(course);
+        }
+
+        Map<String, String> result = new HashMap<>();
+        result.put("success", "true");
+        return new JsonView(new JSONObject(result));
     }
 
     @Override

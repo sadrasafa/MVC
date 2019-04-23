@@ -2,10 +2,15 @@ package selab.mvc.controllers;
 
 import org.json.JSONObject;
 import selab.mvc.models.DataContext;
+import selab.mvc.models.entities.Course;
+import selab.mvc.models.entities.Student;
+import selab.mvc.views.JsonView;
 import selab.mvc.views.View;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddStudentToCourseController extends Controller {
 
@@ -24,6 +29,12 @@ public class AddStudentToCourseController extends Controller {
         String points = input.getString("points");
 
         // TODO: Add required codes to associate the student with course
-        return null;
+        Student student = dataContext.getStudents().get(studentNo);
+        Course course = dataContext.getCourses().get(courseNo);
+        student.addCourse(course, points);
+        course.addStudent(student, points);
+        Map<String, String> result = new HashMap<>();
+        result.put("success", "true");
+        return new JsonView(new JSONObject(result));
     }
 }

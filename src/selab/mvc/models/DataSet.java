@@ -15,6 +15,10 @@ public class DataSet<T extends Model> {
         set.put(key, entity);
     }
 
+    public void remove(T entity){
+        set.remove(entity.getPrimaryKey());
+    }
+
     public T get(String key) {
         return set.get(key);
     }
@@ -22,4 +26,6 @@ public class DataSet<T extends Model> {
     public ArrayList<T> getAll() {
         return new ArrayList(set.values());
     }
+
+
 }
